@@ -48,11 +48,12 @@ const Preview: React.FC<PreviewProps> = ({ code, theme = 'light' }) => {
   return (
     <div className="w-full h-full bg-slate-50 relative overflow-hidden flex items-center justify-center">
       <iframe
+        key={code.length > 0 ? code : 'empty'}
         ref={iframeRef}
         title="Live Preview"
         srcDoc={srcDoc}
         className="w-full h-full border-none"
-        sandbox="allow-scripts"
+        sandbox="allow-scripts allow-modals allow-forms allow-popups allow-same-origin"
       />
     </div>
   );

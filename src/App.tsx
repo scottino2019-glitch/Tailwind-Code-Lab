@@ -69,24 +69,11 @@ export default function App() {
       const saved = localStorage.getItem('tailwind-lab-snippets');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          // STRICT FILTERING: 
-          // 1. Remove anything with ID starting with 'sample-' (those will be replaced by INITIAL_SNIPPETS)
-          // 2. Remove anything that matches an INITIAL_SNIPPET title (system duplicates)
-          // 3. Remove anything that has a very similar title to samples
-          const sampleTitles = INITIAL_SNIPPETS.map(s => s.title.toLowerCase());
-          
-          const userSnippets = parsed.filter((s: any) => {
-            if (!s || !s.id || !s.title) return false;
-            const isSampleId = s.id.startsWith('sample-') || s.id.startsWith('sample1') || (typeof s.id === 'string' && s.id.length < 5);
-            const isSampleTitle = sampleTitles.includes(s.title.toLowerCase());
-            return !isSampleId && !isSampleTitle;
-          });
-          
-          // Re-index user snippets to ensure no conflict with sample IDs just in case
-          const combined = [...INITIAL_SNIPPETS, ...userSnippets];
-          // Final safety: removes any remaining duplicate titles
-          return combined.filter((v, i, a) => a.findIndex(t => (t.title.toLowerCase() === v.title.toLowerCase())) === i);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Merge logic: ensure all required samples exist, but respect saved versions
+          const savedIds = new Set(parsed.map(s => s.id));
+          const missingSamples = INITIAL_SNIPPETS.filter(s => !savedIds.has(s.id));
+          return [...parsed, ...missingSamples];
         }
       }
     } catch (e) {
@@ -99,17 +86,38 @@ export default function App() {
     return INITIAL_SNIPPETS[0]?.id || '';
   });
   const [editingCode, setEditingCode] = useState<string>('');
+  const [debouncedCode, setDebouncedCode] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<Category | 'All'>('All');
   const [isCopied, setIsCopied] = useState(false);
 
   const currentSnippet = snippets.find(s => s.id === currentSnippetId) || snippets[0] || INITIAL_SNIPPETS[0];
 
+  // Sync editingCode when snippet selection changes
   useEffect(() => {
     if (currentSnippet) {
       setEditingCode(currentSnippet.code);
     }
-  }, [currentSnippetId, currentSnippet?.code]);
+  }, [currentSnippetId]);
+
+  // Debounce sync to state and preview updates
+  useEffect(() => {
+    if (!currentSnippetId || !editingCode) return;
+
+    const timer = setTimeout(() => {
+      // 1. Update the preview
+      setDebouncedCode(editingCode);
+      
+      // 2. Persist the current code to the snippets array so it's not lost when switching tabs
+      setSnippets(prev => prev.map(s => 
+        s.id === currentSnippetId 
+          ? { ...s, code: editingCode } 
+          : s
+      ));
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [editingCode, currentSnippetId]);
 
   useEffect(() => {
     localStorage.setItem('tailwind-lab-snippets', JSON.stringify(snippets));
@@ -449,7 +457,7 @@ export default function App() {
                       <div className="absolute top-0 left-0 bg-white border-r-2 border-b-2 border-black px-4 py-1 font-black text-[9px] tracking-widest z-10 uppercase">
                         Lab_Live_View
                       </div>
-                      <Preview code={editingCode} theme={previewTheme} />
+                      <Preview code={debouncedCode} theme={previewTheme} />
                     </TabsContent>
                     
                     <TabsContent value="history" className="flex-1 m-0 p-10 bg-slate-50 overflow-y-auto">

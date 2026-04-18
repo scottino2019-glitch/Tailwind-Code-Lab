@@ -12,6 +12,18 @@ export const INITIAL_SNIPPETS: Snippet[] = [
     versions: []
   },
   {
+    id: 'sample-button-gradient',
+    title: 'Bottone Gradiente',
+    description: 'Pulsante con gradiente animato e riflesso glassmorphism.',
+    category: 'Basic',
+    code: `<button class="relative px-10 py-4 font-black text-white group overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-700 shadow-xl hover:shadow-indigo-500/40 transition-all duration-300">
+  <span class="relative z-10 uppercase tracking-widest text-xs">Esplora Ora</span>
+  <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+  <div class="absolute -inset-full bg-gradient-to-r from-transparent via-white/30 to-transparent rotate-45 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none"></div>
+</button>`,
+    versions: []
+  },
+  {
     id: 'sample-hero',
     title: 'Hero Section',
     description: 'Sezione Hero con call to action e animazioni Alpine.js.',
