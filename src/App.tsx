@@ -195,7 +195,7 @@ export default function App() {
                     New Snippet
                   </Button>
                 } />
-                <DialogContent className="sm:max-w-md rounded-none border-2 border-black">
+                <DialogContent className="sm:max-w-md rounded-none border-4 border-black bg-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
                   <DialogHeader>
                     <DialogTitle className="uppercase font-black text-xl tracking-tighter">Create New Snippet</DialogTitle>
                     <DialogDescription className="font-medium text-slate-600">

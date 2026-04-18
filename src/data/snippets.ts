@@ -2,108 +2,117 @@ import { Snippet } from "../types";
 
 export const INITIAL_SNIPPETS: Snippet[] = [
   {
-    id: 'btn-primary',
-    title: 'Pulsante Primario',
-    description: 'Un pulsante classico con effetto hover e focus.',
+    id: '1',
+    title: 'Modern Landing Button',
+    description: 'A button with hover effects and shadow.',
     category: 'Basic',
-    code: `<button class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200">
-  Cliccami
+    code: `<button class="px-8 py-3 bg-black text-white font-bold rounded-lg transform hover:-translate-y-1 hover:shadow-lg transition-all active:scale-95">
+  Get Started
 </button>`,
     versions: []
   },
   {
-    id: 'card-product',
-    title: 'Carta Prodotto',
-    description: 'Una scheda prodotto con immagine, titolo, prezzo e bottone.',
+    id: '2',
+    title: 'Product Feature Card',
+    description: 'A clean card with image and badge.',
     category: 'Components',
-    code: `<div class="max-w-sm bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-  <img class="w-full h-48 object-cover" src="https://picsum.photos/seed/tech/400/300" alt="Prodotto" />
+    code: `<div class="max-w-sm rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-xl">
+  <img class="w-full h-48 object-cover" src="https://picsum.photos/seed/tech/400/250" alt="Product" referrerPolicy="no-referrer">
   <div class="p-6">
-    <div class="flex items-center justify-between mb-2">
-      <span class="px-3 py-1 bg-blue-100 text-blue-600 text-xs font-bold rounded-full uppercase">Nuovo</span>
-      <span class="text-gray-500 text-sm font-medium">Electronics</span>
-    </div>
-    <h3 class="text-xl font-bold text-gray-900 mb-2">Smart Gadget X1</h3>
-    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-      L'ultima frontiera della tecnologia nel palmo della tua mano. Design elegante e prestazioni imbattibili.
-    </p>
+    <span class="inline-block px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-600 rounded-full mb-4">New Launch</span>
+    <h3 class="text-xl font-bold text-slate-900 mb-2">Wireless Headphones Pro</h3>
+    <p class="text-slate-600 text-sm mb-6">Experience crystal clear sound with active noise cancellation and 40-hour battery life.</p>
     <div class="flex items-center justify-between">
-      <span class="text-2xl font-bold text-gray-900">€299.00</span>
-      <button class="px-4 py-2 bg-gray-900 text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-colors">
-        Aggiungi al Carrello
-      </button>
+      <span class="text-2xl font-black">$299</span>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-blue-700 transition-colors">Add to Cart</button>
     </div>
   </div>
 </div>`,
     versions: []
   },
   {
-    id: 'hero-modern',
-    title: 'Hero Section Moderna',
-    description: 'Sezione hero con testo centrato, gradiente e bottoni.',
-    category: 'Layout',
-    code: `<section class="relative py-20 bg-gray-900 overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20"></div>
-  <div class="container mx-auto px-4 relative z-10 text-center">
-    <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight">
-      Costruisci il Futuro <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Oggi Stesso</span>
-    </h1>
-    <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-10">
-      Una piattaforma intuitiva per sviluppatori che vogliono accelerare il proprio workflow senza compromettere la qualità.
-    </p>
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="#" class="px-8 py-3 bg-white text-gray-900 font-bold rounded-full hover:bg-gray-100 transition-all">Inizia Ora</a>
-      <a href="#" class="px-8 py-3 border border-gray-700 text-white font-bold rounded-full hover:bg-gray-800 transition-all">Scopri di più</a>
-    </div>
+    id: '3',
+    title: 'Grid Pricing Table',
+    description: 'A responsive pricing section with high contrast.',
+    category: 'Marketing',
+    code: `<div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-10 max-w-6xl mx-auto">
+  <div class="p-8 border-2 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center">
+    <h3 class="text-xl font-black uppercase mb-2 text-black">Essential</h3>
+    <div class="text-4xl font-black mb-6 text-black">$19<span class="text-sm">/mo</span></div>
+    <ul class="space-y-4 mb-8 text-sm font-medium w-full text-left text-black">
+      <li class="flex items-center gap-2">✓ 10 Projects</li>
+      <li class="flex items-center gap-2">✓ Basic Support</li>
+      <li class="flex items-center gap-2 text-slate-400">✗ Automation</li>
+    </ul>
+    <button class="w-full py-3 bg-black text-white font-bold uppercase text-xs tracking-widest">Select Plan</button>
   </div>
+  
+  <div class="relative p-8 border-2 border-black bg-yellow-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center transform md:scale-105">
+    <div class="absolute -top-4 bg-black text-white px-4 py-1 text-[10px] font-black uppercase tracking-widest">Most Popular</div>
+    <h3 class="text-xl font-black uppercase mb-2 text-black">Professional</h3>
+    <div class="text-4xl font-black mb-6 text-black">$49<span class="text-sm">/mo</span></div>
+    <ul class="space-y-4 mb-8 text-sm font-medium w-full text-left text-black">
+      <li class="flex items-center gap-2">✓ Unlimited Projects</li>
+      <li class="flex items-center gap-2">✓ 24/7 Support</li>
+      <li class="flex items-center gap-2">✓ Custom API Access</li>
+    </ul>
+    <button class="w-full py-3 bg-black text-white font-bold uppercase text-xs tracking-widest">Select Plan</button>
+  </div>
+
+  <div class="p-8 border-2 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center">
+    <h3 class="text-xl font-black uppercase mb-2 text-black">Enterprise</h3>
+    <div class="text-4xl font-black mb-6 text-black">$99<span class="text-sm">/mo</span></div>
+    <ul class="space-y-4 mb-8 text-sm font-medium w-full text-left text-black">
+      <li class="flex items-center gap-2">✓ Dedicated Manager</li>
+      <li class="flex items-center gap-2">✓ Custom Contracts</li>
+      <li class="flex items-center gap-2">✓ SSO Integration</li>
+    </ul>
+    <button class="w-full py-3 bg-black text-white font-bold uppercase text-xs tracking-widest">Select Plan</button>
+  </div>
+</div>`,
+    versions: []
+  },
+  {
+    id: '4',
+    title: 'Newsletter Hero',
+    description: 'A bold, minimalist hero section for subscriptions.',
+    category: 'Marketing',
+    code: `<section class="bg-indigo-600 text-white py-24 px-12 text-center rounded-3xl">
+  <h1 class="text-5xl font-black mb-6 tracking-tight">Stay ahead of the curve.</h1>
+  <p class="text-xl text-indigo-100 mb-10 max-w-2xl mx-auto font-medium">Join 10,000+ developers getting weekly insights on Tailwind CSS and modern web design.</p>
+  <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+    <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-4 rounded-xl text-slate-900 font-medium focus:ring-4 focus:ring-indigo-300 outline-none">
+    <button class="px-8 py-4 bg-white text-indigo-600 font-black rounded-xl hover:bg-slate-50 transition-colors">Subscribe</button>
+  </form>
+  <p class="mt-4 text-xs text-indigo-200">No spam, just quality. Unsubscribe at any time.</p>
 </section>`,
     versions: []
   },
   {
-    id: 'navbar-glass',
-    title: 'Navbar Glassmorphism',
-    description: 'Header trasparente con effetto blur.',
+    id: '5',
+    title: 'Sleek FAQ Accordion',
+    description: 'A modern FAQ section with interactive feels.',
     category: 'Layout',
-    code: `<nav class="fixed top-0 left-0 right-0 z-50 bg-white/30 backdrop-blur-md border-b border-white/20 px-6 py-4 flex items-center justify-between">
-  <div class="flex items-center gap-2">
-    <div class="w-8 h-8 bg-blue-600 rounded-lg"></div>
-    <span class="text-xl font-bold tracking-tight">CodeLab</span>
+    code: `<div class="max-w-2xl mx-auto space-y-4 p-8">
+  <div class="border border-slate-200 rounded-2xl p-6 bg-white hover:border-slate-400 transition-colors shadow-sm">
+    <h4 class="font-bold text-lg flex items-center justify-between cursor-pointer text-slate-900">
+      How does the versioning work?
+      <span class="text-slate-400 text-2xl">+</span>
+    </h4>
+    <p class="mt-4 text-slate-600 leading-relaxed font-medium">Every time you click 'Commit', we store a local snapshot of your code. You can revert back through the history tab at any time.</p>
   </div>
-  <div class="hidden md:flex items-center gap-8">
-    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Esempi</a>
-    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Temi</a>
-    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Docs</a>
+  <div class="border border-slate-200 rounded-2xl p-6 bg-white">
+    <h4 class="font-bold text-lg flex items-center justify-between cursor-pointer text-slate-400">
+      Can I export my snippets?
+      <span class="text-2xl">+</span>
+    </h4>
   </div>
-  <button class="px-4 py-2 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition">
-    Entra
-  </button>
-</nav>`,
-    versions: []
-  },
-  {
-    id: 'form-contact',
-    title: 'Modulo Contatti',
-    description: 'Form pulito con etichette e input stilizzati.',
-    category: 'Forms',
-    code: `<div class="max-w-md mx-auto p-8 bg-white rounded-3xl border border-gray-100 shadow-sm">
-  <h2 class="text-2xl font-bold text-gray-900 mb-6 font-sans">Contattaci</h2>
-  <form class="space-y-4">
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
-      <input type="text" class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" placeholder="Mario Rossi" />
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-      <input type="email" class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" placeholder="mario@esempio.it" />
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Messaggio</label>
-      <textarea rows="4" class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" placeholder="Come possiamo aiutarti?"></textarea>
-    </div>
-    <button type="submit" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20">
-      Invia Messaggio
-    </button>
-  </form>
+  <div class="border border-slate-200 rounded-2xl p-6 bg-white">
+    <h4 class="font-bold text-lg flex items-center justify-between cursor-pointer text-slate-400">
+      Is this tool free?
+      <span class="text-2xl">+</span>
+    </h4>
+  </div>
 </div>`,
     versions: []
   }
