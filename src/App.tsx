@@ -66,7 +66,18 @@ const CATEGORIES: Category[] = ['Basic', 'Components', 'Layout', 'Forms', 'Marke
 export default function App() {
   const [snippets, setSnippets] = useState<Snippet[]>(() => {
     const saved = localStorage.getItem('tailwind-lab-snippets');
-    return saved ? JSON.parse(saved) : INITIAL_SNIPPETS;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Add any initial snippets that aren't already in the list
+        const storedIds = parsed.map((s: any) => s.id);
+        const missing = INITIAL_SNIPPETS.filter(s => !storedIds.includes(s.id));
+        return [...parsed, ...missing];
+      } catch (e) {
+        return INITIAL_SNIPPETS;
+      }
+    }
+    return INITIAL_SNIPPETS;
   });
   
   const [currentSnippetId, setCurrentSnippetId] = useState<string>(INITIAL_SNIPPETS[0].id);
@@ -313,7 +324,42 @@ export default function App() {
             </div>
             
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="icon" className="rounded-none border-2 border-black h-10 w-10 hover:bg-slate-50 transition-none" onClick={() => window.open('', '_blank')?.document.write(editingCode)}>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="rounded-none border-2 border-black h-10 w-10 hover:bg-red-50 hover:text-red-600 transition-none" 
+                onClick={() => deleteSnippet(currentSnippetId)}
+                title="Delete Current Snippet"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="rounded-none border-2 border-black h-10 w-10 hover:bg-slate-50 transition-none" 
+                onClick={() => {
+                  const win = window.open('', '_blank');
+                  if (win) {
+                    win.document.write(`
+                      <html>
+                        <head>
+                          <meta charset="UTF-8">
+                          <title>${currentSnippet.title} - Preview</title>
+                          <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+                        </head>
+                        <body class="bg-slate-50 min-h-screen">
+                          <div class="p-12 flex justify-center items-start">
+                            <div class="w-full">
+                              ${editingCode}
+                            </div>
+                          </div>
+                        </body>
+                      </html>
+                    `);
+                    win.document.close();
+                  }
+                }}
+              >
                 <ExternalLink className="w-4 h-4" />
               </Button>
               <Button variant="outline" size="sm" onClick={handleSave} className="hidden sm:flex items-center gap-2 rounded-none border-2 border-black h-10 px-4 font-black uppercase text-[10px] tracking-widest hover:bg-slate-50 transition-none">
@@ -370,7 +416,7 @@ export default function App() {
                             <button
                               key={theme.id}
                               onClick={() => setPreviewTheme(theme.id as any)}
-                              className={`w-3.5 h-3.5 rounded-none border border-black/20 transition-transform ${theme.bg} ${previewTheme === theme.id ? 'ring-2 ring-black ring-offset-1' : ''}`}
+                              className={`w-4 h-4 rounded-none border-2 transition-all ${theme.bg} ${previewTheme === theme.id ? 'border-blue-600 scale-110 ring-2 ring-blue-600 ring-offset-2 z-10' : 'border-black/20 hover:border-black'}`}
                               title={theme.label}
                             />
                           ))}
