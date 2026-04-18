@@ -1,0 +1,6 @@
+{
+  "name": "Tailwind Code Lab",
+  "description": "Un laboratorio interattivo per sperimentare con HTML e Tailwind CSS. Include una libreria di snippet, anteprima live e cronologia delle versioni.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
