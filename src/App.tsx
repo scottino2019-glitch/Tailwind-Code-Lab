@@ -69,10 +69,19 @@ export default function App() {
       const saved = localStorage.getItem('tailwind-lab-snippets');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const storedIds = parsed.map((s: any) => s?.id);
-          const missing = INITIAL_SNIPPETS.filter(s => s && !storedIds.includes(s.id));
-          return [...parsed, ...missing];
+        if (Array.isArray(parsed)) {
+          // Identify current sample titles to filter out old duplicates/clones
+          const sampleTitles = INITIAL_SNIPPETS.map(s => s.title);
+          
+          // Keep only truly custom user snippets
+          const userSnippets = parsed.filter((s: any) => 
+            s && 
+            !s.id?.startsWith('sample-') && 
+            !sampleTitles.includes(s.title)
+          );
+          
+          // Always prepend initial snippets to ensure they are available and up to date
+          return [...INITIAL_SNIPPETS, ...userSnippets];
         }
       }
     } catch (e) {
