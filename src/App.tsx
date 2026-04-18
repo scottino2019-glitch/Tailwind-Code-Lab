@@ -160,13 +160,21 @@ export default function App() {
   };
 
   const deleteSnippet = (id: string) => {
+    const isProtected = INITIAL_SNIPPETS.some(s => s.id === id);
+    if (isProtected) {
+      toast.error('Esempi di sistema protetti. Non possono essere eliminati.');
+      return;
+    }
+
     if (snippets.length <= 1) {
       toast.error('Devi avere almeno uno snippet.');
       return;
     }
+    
     setSnippets(prev => prev.filter(s => s.id !== id));
     if (currentSnippetId === id) {
-      setCurrentSnippetId(snippets.find(s => s.id !== id)?.id || '');
+      const remaining = snippets.filter(s => s.id !== id);
+      setCurrentSnippetId(remaining[0]?.id || INITIAL_SNIPPETS[0].id);
     }
     toast.info('Snippet rimosso.');
   };
@@ -320,15 +328,17 @@ export default function App() {
             </div>
             
             <div className="flex items-center gap-3">
-              <Button 
-                variant="outline" 
-                size="icon" 
-                className="rounded-none border-2 border-black h-10 w-10 hover:bg-red-50 hover:text-red-600 transition-none" 
-                onClick={() => deleteSnippet(currentSnippetId)}
-                title="Delete Current Snippet"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
+              {!INITIAL_SNIPPETS.some(s => s.id === currentSnippetId) && (
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="rounded-none border-2 border-black h-10 w-10 hover:bg-red-50 hover:text-red-600 transition-none" 
+                  onClick={() => deleteSnippet(currentSnippetId)}
+                  title="Elimina Snippet"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              )}
               <Button 
                 variant="outline" 
                 size="icon" 
@@ -342,6 +352,7 @@ export default function App() {
                           <meta charset="UTF-8">
                           <title>${currentSnippet.title} - Preview</title>
                           <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
                         </head>
                         <body class="bg-slate-50 min-h-screen">
                           <div class="p-12 flex justify-center items-start">
