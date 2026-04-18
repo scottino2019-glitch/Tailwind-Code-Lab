@@ -2,7 +2,7 @@ import { Snippet } from "../types";
 
 export const INITIAL_SNIPPETS: Snippet[] = [
   {
-    id: '1',
+    id: 'sample-1',
     title: 'Modern Landing Button',
     description: 'A button with hover effects and shadow.',
     category: 'Basic',
@@ -12,15 +12,15 @@ export const INITIAL_SNIPPETS: Snippet[] = [
     versions: []
   },
   {
-    id: '2',
+    id: 'sample-2',
     title: 'Product Feature Card',
     description: 'A clean card with image and badge.',
     category: 'Components',
     code: `<div class="max-w-sm rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-xl">
   <img class="w-full h-48 object-cover" src="https://picsum.photos/seed/tech/400/250" alt="Product" referrerPolicy="no-referrer">
-  <div class="p-6">
+  <div class="p-6 text-black">
     <span class="inline-block px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-600 rounded-full mb-4">New Launch</span>
-    <h3 class="text-xl font-bold text-slate-900 mb-2">Wireless Headphones Pro</h3>
+    <h3 class="text-xl font-bold mb-2">Wireless Headphones Pro</h3>
     <p class="text-slate-600 text-sm mb-6">Experience crystal clear sound with active noise cancellation and 40-hour battery life.</p>
     <div class="flex items-center justify-between">
       <span class="text-2xl font-black">$299</span>
@@ -31,7 +31,7 @@ export const INITIAL_SNIPPETS: Snippet[] = [
     versions: []
   },
   {
-    id: '3',
+    id: 'sample-3',
     title: 'Grid Pricing Table',
     description: 'A responsive pricing section with high contrast.',
     category: 'Marketing',
@@ -73,7 +73,7 @@ export const INITIAL_SNIPPETS: Snippet[] = [
     versions: []
   },
   {
-    id: '4',
+    id: 'sample-4',
     title: 'Newsletter Hero',
     description: 'A bold, minimalist hero section for subscriptions.',
     category: 'Marketing',
@@ -89,7 +89,7 @@ export const INITIAL_SNIPPETS: Snippet[] = [
     versions: []
   },
   {
-    id: '5',
+    id: 'sample-5',
     title: 'Sleek FAQ Accordion',
     description: 'A modern FAQ section with interactive feels.',
     category: 'Layout',

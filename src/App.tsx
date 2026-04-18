@@ -65,32 +65,37 @@ const CATEGORIES: Category[] = ['Basic', 'Components', 'Layout', 'Forms', 'Marke
 
 export default function App() {
   const [snippets, setSnippets] = useState<Snippet[]>(() => {
-    const saved = localStorage.getItem('tailwind-lab-snippets');
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem('tailwind-lab-snippets');
+      if (saved) {
         const parsed = JSON.parse(saved);
-        // Add any initial snippets that aren't already in the list
-        const storedIds = parsed.map((s: any) => s.id);
-        const missing = INITIAL_SNIPPETS.filter(s => !storedIds.includes(s.id));
-        return [...parsed, ...missing];
-      } catch (e) {
-        return INITIAL_SNIPPETS;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const storedIds = parsed.map((s: any) => s?.id);
+          const missing = INITIAL_SNIPPETS.filter(s => s && !storedIds.includes(s.id));
+          return [...parsed, ...missing];
+        }
       }
+    } catch (e) {
+      console.error('Local storage error:', e);
     }
     return INITIAL_SNIPPETS;
   });
   
-  const [currentSnippetId, setCurrentSnippetId] = useState<string>(INITIAL_SNIPPETS[0].id);
+  const [currentSnippetId, setCurrentSnippetId] = useState<string>(() => {
+    return INITIAL_SNIPPETS[0]?.id || '';
+  });
   const [editingCode, setEditingCode] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<Category | 'All'>('All');
   const [isCopied, setIsCopied] = useState(false);
 
-  const currentSnippet = snippets.find(s => s.id === currentSnippetId) || snippets[0];
+  const currentSnippet = snippets.find(s => s.id === currentSnippetId) || snippets[0] || INITIAL_SNIPPETS[0];
 
   useEffect(() => {
-    setEditingCode(currentSnippet.code);
-  }, [currentSnippetId, currentSnippet.code]);
+    if (currentSnippet) {
+      setEditingCode(currentSnippet.code);
+    }
+  }, [currentSnippetId, currentSnippet?.code]);
 
   useEffect(() => {
     localStorage.setItem('tailwind-lab-snippets', JSON.stringify(snippets));
@@ -293,15 +298,6 @@ export default function App() {
                           <span className="font-black text-sm tracking-tight w-full">{snippet.title.toUpperCase()}</span>
                         </div>
                       </SidebarMenuButton>
-                      <SidebarMenuAction 
-                        className={`opacity-0 group-hover/menu-item:opacity-100 h-8 w-8 top-1/2 -translate-y-1/2 right-4 transition-none border-2 border-black rounded-none ${currentSnippetId === snippet.id ? 'bg-white text-black hover:bg-slate-100' : 'bg-black text-white hover:bg-slate-800'}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteSnippet(snippet.id);
-                        }}
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </SidebarMenuAction>
                     </SidebarMenuItem>
                   ))}
                 </SidebarMenu>
