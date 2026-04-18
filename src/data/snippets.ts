@@ -2,17 +2,49 @@ import { Snippet } from "../types";
 
 export const INITIAL_SNIPPETS: Snippet[] = [
   {
-    id: 'sample-1',
-    title: 'Modern Landing Button',
-    description: 'A button with hover effects and shadow.',
+    id: 'sample-button',
+    title: 'Bottone Semplice',
+    description: 'Un pulsante moderno con effetti hover e ombre.',
     category: 'Basic',
     code: `<button class="px-8 py-3 bg-black text-white font-bold rounded-lg transform hover:-translate-y-1 hover:shadow-lg transition-all active:scale-95">
-  Get Started
+  Clicca Qui
 </button>`,
     versions: []
   },
   {
-    id: 'sample-2',
+    id: 'sample-hero',
+    title: 'Hero Section',
+    description: 'Sezione Hero con call to action e animazioni Alpine.js.',
+    category: 'Marketing',
+    code: `<section x-data="{ success: false, loading: false }" class="bg-indigo-600 text-white py-24 px-12 text-center rounded-3xl overflow-hidden relative">
+  <div x-show="!success" x-transition.duration.500ms>
+    <h1 class="text-5xl font-black mb-6 tracking-tight">Stay ahead of the curve.</h1>
+    <p class="text-xl text-indigo-100 mb-10 max-w-2xl mx-auto font-medium">Iscriviti per ricevere le ultime novità su Tailwind e Design.</p>
+    <form @submit.prevent="loading = true; setTimeout(() => { loading = false; success = true }, 1500)" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+      <input type="email" required placeholder="La tua email" class="flex-1 px-6 py-4 rounded-xl text-slate-900 font-medium focus:ring-4 focus:ring-indigo-300 outline-none">
+      <button class="px-8 py-4 bg-white text-indigo-600 font-black rounded-xl hover:bg-slate-50 transition-all flex items-center justify-center min-w-[140px]">
+        <span x-show="!loading">Iscriviti</span>
+        <svg x-show="loading" class="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <div x-show="success" x-transition.scale.90.duration.500ms class="flex flex-col items-center">
+    <div class="bg-white text-indigo-600 rounded-full p-4 mb-6 shadow-xl">
+      <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+    </div>
+    <h2 class="text-4xl font-black mb-2">Benvenuto!</h2>
+    <p class="text-lg text-indigo-100">Controlla la tua email per confermare.</p>
+    <button @click="success = false" class="mt-8 text-indigo-200 underline text-sm hover:text-white">Torna al form</button>
+  </div>
+</section>`,
+    versions: []
+  },
+  {
+    id: 'sample-card',
     title: 'Product Feature Card',
     description: 'Interactive card with zoom and fake cart logic.',
     category: 'Components',
@@ -48,7 +80,7 @@ export const INITIAL_SNIPPETS: Snippet[] = [
     versions: []
   },
   {
-    id: 'sample-3',
+    id: 'sample-pricing',
     title: 'Grid Pricing Table',
     description: 'Switchable pricing (Monthly/Yearly) with transition.',
     category: 'Marketing',
@@ -107,40 +139,8 @@ export const INITIAL_SNIPPETS: Snippet[] = [
     versions: []
   },
   {
-    id: 'sample-4',
-    title: 'Newsletter Hero',
-    description: 'Success state simulation with Alpine.js.',
-    category: 'Marketing',
-    code: `<section x-data="{ success: false, loading: false }" class="bg-indigo-600 text-white py-24 px-12 text-center rounded-3xl overflow-hidden relative">
-  <div x-show="!success" x-transition.duration.500ms>
-    <h1 class="text-5xl font-black mb-6 tracking-tight">Stay ahead of the curve.</h1>
-    <p class="text-xl text-indigo-100 mb-10 max-w-2xl mx-auto font-medium">Join 10,000+ developers getting weekly insights on Tailwind CSS and modern web design.</p>
-    <form @submit.prevent="loading = true; setTimeout(() => { loading = false; success = true }, 1500)" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-      <input type="email" required placeholder="Enter your email" class="flex-1 px-6 py-4 rounded-xl text-slate-900 font-medium focus:ring-4 focus:ring-indigo-300 outline-none">
-      <button class="px-8 py-4 bg-white text-indigo-600 font-black rounded-xl hover:bg-slate-50 transition-all flex items-center justify-center min-w-[140px]">
-        <span x-show="!loading">Subscribe</span>
-        <svg x-show="loading" class="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-      </button>
-    </form>
-  </div>
-
-  <div x-show="success" x-transition.scale.90.duration.500ms class="flex flex-col items-center">
-    <div class="bg-white text-indigo-600 rounded-full p-4 mb-6 shadow-xl">
-      <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-    </div>
-    <h2 class="text-4xl font-black mb-2">You're in!</h2>
-    <p class="text-lg text-indigo-100">Check your inbox to confirm your subscription.</p>
-    <button @click="success = false" class="mt-8 text-indigo-200 underline text-sm hover:text-white">Back to form</button>
-  </div>
-</section>`,
-    versions: []
-  },
-  {
-    id: 'sample-5',
-    title: 'Functional FAQ Accordion',
+    id: 'sample-faq',
+    title: 'FAQ Accordion',
     description: 'Fully interactive accordion with smooth transitions.',
     category: 'Layout',
     code: `<div x-data="{ active: 1 }" class="max-w-2xl mx-auto space-y-4 p-8">

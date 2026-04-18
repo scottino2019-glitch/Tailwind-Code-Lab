@@ -70,18 +70,23 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          // Identify current sample titles to filter out old duplicates/clones
-          const sampleTitles = INITIAL_SNIPPETS.map(s => s.title);
+          // STRICT FILTERING: 
+          // 1. Remove anything with ID starting with 'sample-' (those will be replaced by INITIAL_SNIPPETS)
+          // 2. Remove anything that matches an INITIAL_SNIPPET title (system duplicates)
+          // 3. Remove anything that has a very similar title to samples
+          const sampleTitles = INITIAL_SNIPPETS.map(s => s.title.toLowerCase());
           
-          // Keep only truly custom user snippets
-          const userSnippets = parsed.filter((s: any) => 
-            s && 
-            !s.id?.startsWith('sample-') && 
-            !sampleTitles.includes(s.title)
-          );
+          const userSnippets = parsed.filter((s: any) => {
+            if (!s || !s.id || !s.title) return false;
+            const isSampleId = s.id.startsWith('sample-') || s.id.startsWith('sample1') || (typeof s.id === 'string' && s.id.length < 5);
+            const isSampleTitle = sampleTitles.includes(s.title.toLowerCase());
+            return !isSampleId && !isSampleTitle;
+          });
           
-          // Always prepend initial snippets to ensure they are available and up to date
-          return [...INITIAL_SNIPPETS, ...userSnippets];
+          // Re-index user snippets to ensure no conflict with sample IDs just in case
+          const combined = [...INITIAL_SNIPPETS, ...userSnippets];
+          // Final safety: removes any remaining duplicate titles
+          return combined.filter((v, i, a) => a.findIndex(t => (t.title.toLowerCase() === v.title.toLowerCase())) === i);
         }
       }
     } catch (e) {
@@ -442,7 +447,7 @@ export default function App() {
                     
                     <TabsContent value="preview" className="flex-1 m-0 overflow-hidden relative">
                       <div className="absolute top-0 left-0 bg-white border-r-2 border-b-2 border-black px-4 py-1 font-black text-[9px] tracking-widest z-10 uppercase">
-                        Live_Preview
+                        Lab_Live_View
                       </div>
                       <Preview code={editingCode} theme={previewTheme} />
                     </TabsContent>
