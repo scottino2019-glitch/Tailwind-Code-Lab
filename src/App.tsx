@@ -16,7 +16,8 @@ import {
   Palette,
   ExternalLink,
   Save,
-  Clock
+  Clock,
+  RotateCcw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast, Toaster } from 'sonner';
@@ -149,7 +150,14 @@ export default function App() {
 
   const restoreVersion = (versionCode: string) => {
     setEditingCode(versionCode);
-    toast.info('Versione ripristinata');
+    setDebouncedCode(versionCode);
+    setSnippets(prev => prev.map(s => 
+      s.id === currentSnippetId 
+        ? { ...s, code: versionCode } 
+        : s
+    ));
+    setActiveTab('preview');
+    toast.success('Versione ripristinata della cronologia!');
   };
 
   const filteredSnippets = snippets.filter(s => {
@@ -202,6 +210,24 @@ export default function App() {
   };
 
   const [previewTheme, setPreviewTheme] = useState<'light' | 'dark' | 'sepia' | 'slate'>('light');
+  const [activeTab, setActiveTab] = useState<'preview' | 'history'>('preview');
+
+  const originalSample = INITIAL_SNIPPETS.find(s => s.id === currentSnippetId);
+  const isModifiedSample = originalSample && currentSnippet.code !== originalSample.code;
+
+  const handleResetToOriginal = useCallback(() => {
+    const original = INITIAL_SNIPPETS.find(s => s.id === currentSnippetId);
+    if (original) {
+      setEditingCode(original.code);
+      setDebouncedCode(original.code);
+      setSnippets(prev => prev.map(s => 
+        s.id === currentSnippetId 
+          ? { ...s, code: original.code } 
+          : s
+      ));
+      toast.success('Snippet ripristinato al codice originale!');
+    }
+  }, [currentSnippetId]);
 
   const THEMES = [
     { id: 'light', label: 'Chiaro', bg: 'bg-white' },
@@ -391,6 +417,18 @@ export default function App() {
               >
                 <ExternalLink className="w-4 h-4" />
               </Button>
+              {isModifiedSample && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleResetToOriginal} 
+                  className="hidden sm:flex items-center gap-2 rounded-none border-2 border-black h-10 px-4 font-black uppercase text-[10px] tracking-widest bg-yellow-300 hover:bg-yellow-400 text-black transition-none font-bold"
+                  title="Ripristina lo snippet al codice originale di default"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  Ripristina Originale
+                </Button>
+              )}
               <Button variant="outline" size="sm" onClick={handleSave} className="hidden sm:flex items-center gap-2 rounded-none border-2 border-black h-10 px-4 font-black uppercase text-[10px] tracking-widest hover:bg-slate-50 transition-none">
                 <Save className="w-4 h-4" />
                 Commit
@@ -424,7 +462,7 @@ export default function App() {
               
               <ResizablePanel defaultSize={55} minSize={30}>
                 <div className="flex flex-col h-full overflow-hidden">
-                  <Tabs defaultValue="preview" className="flex-1 flex flex-col">
+                  <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="flex-1 flex flex-col">
                     <div className="px-6 border-b-2 border-black bg-white shrink-0 flex items-center justify-between h-14">
                       <TabsList className="bg-transparent border-none p-0 h-full gap-8">
                         <TabsTrigger value="preview" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-4 data-[state=active]:border-black rounded-none h-full px-0 text-[10px] font-black uppercase tracking-[2px] transition-none">
